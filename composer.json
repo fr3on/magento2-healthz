@@ -2,7 +2,6 @@
   "name": "fr3on/magento2-healthz",
   "description": "Health check endpoints for Magento 2 — liveness, readiness, and detail probes",
   "type": "magento2-module",
-  "version": "0.1.0",
   "license": "MIT",
   "authors": [
     {
@@ -12,9 +11,17 @@
     }
   ],
   "keywords": [
-    "magento2", "magento", "health", "healthcheck",
-    "kubernetes", "liveness", "readiness", "probe",
-    "docker", "devops", "monitoring"
+    "magento2",
+    "magento",
+    "health",
+    "healthcheck",
+    "kubernetes",
+    "liveness",
+    "readiness",
+    "probe",
+    "docker",
+    "devops",
+    "monitoring"
   ],
   "repositories": [
     {
@@ -33,7 +40,9 @@
     "phpmd/phpmd": "^2.15"
   },
   "autoload": {
-    "files": ["registration.php"],
+    "files": [
+      "registration.php"
+    ],
     "psr-4": {
       "Fr3on\\Healthz\\": ""
     }
@@ -44,7 +53,12 @@
     }
   },
   "extra": {
-    "map": [["*", "Fr3on/Healthz"]]
+    "map": [
+      [
+        "*",
+        "Fr3on/Healthz"
+      ]
+    ]
   },
   "config": {
     "allow-plugins": {
