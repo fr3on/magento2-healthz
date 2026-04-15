@@ -28,6 +28,7 @@ class SessionCheck implements CheckInterface
      * @SuppressWarnings(PHPMD.StaticAccess)
      * @SuppressWarnings(PHPMD.ErrorControlOperator)
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function run(): CheckResult
     {
