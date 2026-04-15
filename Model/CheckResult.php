@@ -11,13 +11,13 @@ class CheckResult
     public const STATUS_WARN = 'warn';   // non-critical degraded state
 
     private string $status;
-    private int $durationMs;
+    private float $durationMs;
     private ?string $error;
     private array $metadata;  // extra key/value pairs for detail response
 
     public function __construct(
         string $status,
-        int $durationMs = 0,
+        float $durationMs = 0.0,
         ?string $error = null,
         array $metadata = []
     ) {
@@ -27,17 +27,17 @@ class CheckResult
         $this->metadata   = $metadata;
     }
 
-    public static function ok(int $durationMs = 0, array $metadata = []): self
+    public static function ok(float $durationMs = 0.0, array $metadata = []): self
     {
         return new self(self::STATUS_OK, $durationMs, null, $metadata);
     }
 
-    public static function fail(string $error, int $durationMs = 0): self
+    public static function fail(string $error, float $durationMs = 0.0): self
     {
         return new self(self::STATUS_FAIL, $durationMs, $error);
     }
 
-    public static function warn(string $message, int $durationMs = 0, array $metadata = []): self
+    public static function warn(string $message, float $durationMs = 0.0, array $metadata = []): self
     {
         return new self(self::STATUS_WARN, $durationMs, $message, $metadata);
     }
@@ -45,7 +45,7 @@ class CheckResult
     public function isOk(): bool   { return $this->status === self::STATUS_OK; }
     public function isFail(): bool { return $this->status === self::STATUS_FAIL; }
     public function getStatus(): string     { return $this->status; }
-    public function getDurationMs(): int    { return $this->durationMs; }
+    public function getDurationMs(): float  { return $this->durationMs; }
     public function getError(): ?string     { return $this->error; }
     public function getMetadata(): array    { return $this->metadata; }
 

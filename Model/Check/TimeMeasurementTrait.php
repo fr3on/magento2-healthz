@@ -4,13 +4,13 @@ namespace Fr3on\Healthz\Model\Check;
 trait TimeMeasurementTrait
 {
     /**
-     * Calculate duration in milliseconds.
+     * Calculate duration in milliseconds with micro-precision.
      *
      * @param int $startHrTime
-     * @return int
+     * @return float
      */
-    protected function getDurationMs(int $startHrTime): int
+    protected function getDurationMs(int $startHrTime): float
     {
-        return (int)((hrtime(true) - $startHrTime) / 1_000_000);
+        return (float)round((hrtime(true) - $startHrTime) / 1_000_000, 3);
     }
 }

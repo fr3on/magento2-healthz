@@ -27,7 +27,7 @@
     </type>
 
     <!-- Inject custom logger into Controller -->
-    <type name="Fr3on\Healthz\Controller\Health\Ready">
+    <type name="Fr3on\Healthz\Controller\Ready">
         <arguments>
             <argument name="logger" xsi:type="object">Fr3on\Healthz\Logger\Logger</argument>
         </arguments>
