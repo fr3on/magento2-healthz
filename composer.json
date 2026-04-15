@@ -45,5 +45,10 @@
   },
   "extra": {
     "map": [["*", "Fr3on/Healthz"]]
+  },
+  "config": {
+    "allow-plugins": {
+      "magento/composer-dependency-version-audit-plugin": true
+    }
   }
 }
