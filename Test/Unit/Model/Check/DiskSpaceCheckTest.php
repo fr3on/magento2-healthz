@@ -13,12 +13,12 @@ class DiskSpaceCheckTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->configMock = $this->createMock(Config::class);
-        $this->subject = new DiskSpaceCheck($this->configMock);
-        
         if (!defined('BP')) {
             define('BP', '/tmp');
         }
+
+        $this->configMock = $this->createMock(Config::class);
+        $this->subject = new DiskSpaceCheck($this->configMock, '/tmp');
     }
 
     public function testIsCriticalIsFalse()

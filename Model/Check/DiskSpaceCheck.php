@@ -9,7 +9,8 @@ class DiskSpaceCheck implements CheckInterface
     use TimeMeasurementTrait;
 
     public function __construct(
-        private readonly Config $config
+        private readonly Config $config,
+        private readonly string $checkPath = BP . '/var'
     ) {}
 
     public function getName(): string
@@ -28,7 +29,7 @@ class DiskSpaceCheck implements CheckInterface
     public function run(): CheckResult
     {
         $start = hrtime(true);
-        $path = BP . '/var';
+        $path = $this->checkPath;
         
         if (!is_dir($path)) {
             return CheckResult::warn('disk_space check: var/ directory not found', $this->getDurationMs($start));
