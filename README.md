@@ -1,5 +1,11 @@
 # Magento 2 Healthz
 
+[![CI](https://github.com/fr3on/magento2-healthz/actions/workflows/ci.yml/badge.svg)](https://github.com/fr3on/magento2-healthz/actions/workflows/ci.yml)
+[![Latest Stable Version](https://img.shields.io/packagist/v/fr3on/magento2-healthz)](https://packagist.org/packages/fr3on/magento2-healthz)
+[![License](https://img.shields.io/github/license/fr3on/magento2-healthz)](LICENSE)
+[![PHP Version Support](https://img.shields.io/packagist/php-v/fr3on/magento2-healthz)](https://packagist.org/packages/fr3on/magento2-healthz)
+[![Total Downloads](https://img.shields.io/packagist/dt/fr3on/magento2-healthz)](https://packagist.org/packages/fr3on/magento2-healthz)
+
 Professional health check endpoints for Magento 2. Designed for Kubernetes liveness/readiness probes, Docker healthchecks, and load balancer monitoring.
 
 ## Features
