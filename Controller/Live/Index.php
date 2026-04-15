@@ -13,7 +13,7 @@ use Magento\Framework\Controller\Result\JsonFactory;
 /**
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
-class Live implements HttpGetActionInterface, CsrfAwareActionInterface
+class Index implements HttpGetActionInterface, CsrfAwareActionInterface
 {
     public function __construct(
         private readonly JsonFactory $jsonFactory,
