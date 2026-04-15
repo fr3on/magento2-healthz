@@ -1,27 +1,30 @@
 <?php
-namespace Fr3on\Healthz\Controller;
+namespace Fr3on\Healthz\Controller\Detail;
 
 use DateTime;
 use Fr3on\Healthz\Model\CheckRegistry;
 use Fr3on\Healthz\Model\Config;
-use Fr3on\Healthz\Logger\Logger;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\Request\InvalidRequestException;
 use Magento\Framework\App\CsrfAwareActionInterface;
+use Magento\Framework\App\ProductMetadataInterface;
+use Magento\Framework\App\State;
 use Magento\Framework\Controller\Result\Json;
 use Magento\Framework\Controller\Result\JsonFactory;
 
 /**
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
-class Ready implements HttpGetActionInterface, CsrfAwareActionInterface
+class Detail implements HttpGetActionInterface, CsrfAwareActionInterface
 {
     public function __construct(
         private readonly JsonFactory $jsonFactory,
         private readonly CheckRegistry $checkRegistry,
         private readonly Config $config,
-        private readonly Logger $logger
+        private readonly ProductMetadataInterface $productMetadata,
+        private readonly State $appState,
+        private readonly RequestInterface $request
     ) {}
 
     public function execute(): Json
@@ -35,37 +38,42 @@ class Ready implements HttpGetActionInterface, CsrfAwareActionInterface
                             ->setData(['error' => 'not found']);
         }
 
-        $criticalChecks = $this->checkRegistry->getCritical();
-        $results = $this->checkRegistry->run($criticalChecks);
-        
-        $allOk = true;
-        $checksOut = [];
-        $firstError = null;
-
-        foreach ($results as $name => $result) {
-            $checksOut[$name] = $result->getStatus();
-            if ($result->isFail()) {
-                $allOk = false;
-                if (!$firstError) {
-                    $firstError = $name . ': ' . $result->getError();
-                }
+        // Optional token check
+        $token = $this->config->getDetailToken();
+        if (!empty($token)) {
+            $provided = $this->request->getHeader('X-Health-Token')
+                ?? $this->request->getParam('token');
+            if ($provided !== $token) {
+                return $response->setHttpResponseCode(401)
+                                ->setData(['error' => 'unauthorized']);
             }
         }
 
-        $body = [
-            'status'    => $allOk ? 'ok' : 'fail',
-            'timestamp' => (new DateTime())->format('c'),
-            'checks'    => $checksOut,
-        ];
+        $results = $this->checkRegistry->run($this->checkRegistry->getAll());
+        $allOk = true;
+        $checksOut = [];
 
-        if ($firstError) {
-            $body['error'] = $firstError;
-            $this->logger->error('Healthz readiness probe failed: ' . $firstError);
+        foreach ($results as $name => $result) {
+            $checksOut[$name] = $result->toArray();
+            if ($result->isFail()) {
+                $allOk = false;
+            }
         }
 
-        return $response
-            ->setHttpResponseCode($allOk ? 200 : 503)
-            ->setData($body);
+        return $response->setData([
+            'status'    => $allOk ? 'ok' : 'fail',
+            'timestamp' => (new DateTime())->format('c'),
+            'magento'   => [
+                'version' => $this->productMetadata->getVersion(),
+                'edition' => $this->productMetadata->getEdition(),
+                'mode'    => $this->appState->getMode(),
+            ],
+            'php'       => [
+                'version'    => PHP_VERSION,
+                'extensions' => get_loaded_extensions(),
+            ],
+            'checks'    => $checksOut,
+        ]);
     }
 
     public function createCsrfValidationException(RequestInterface $request): ?InvalidRequestException

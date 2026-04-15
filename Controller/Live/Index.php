@@ -1,5 +1,5 @@
 <?php
-namespace Fr3on\Healthz\Controller;
+namespace Fr3on\Healthz\Controller\Live;
 
 use DateTime;
 use Fr3on\Healthz\Model\Config;
