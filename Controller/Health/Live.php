@@ -37,7 +37,7 @@ class Live implements HttpGetActionInterface, CsrfAwareActionInterface
         ]);
     }
 
-    public function createException(RequestInterface $request): ?InvalidRequestException
+    public function createCsrfValidationException(RequestInterface $request): ?InvalidRequestException
     {
         return null;
     }

@@ -68,7 +68,7 @@ class Ready implements HttpGetActionInterface, CsrfAwareActionInterface
             ->setData($body);
     }
 
-    public function createException(RequestInterface $request): ?InvalidRequestException
+    public function createCsrfValidationException(RequestInterface $request): ?InvalidRequestException
     {
         return null;
     }
