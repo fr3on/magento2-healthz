@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Fr3on\Healthz\Model\CheckRegistry">
+        <arguments>
+            <argument name="checks" xsi:type="array">
+                <item name="database_read" xsi:type="object">Fr3on\Healthz\Model\Check\DatabaseReadCheck</item>
+                <item name="database_write" xsi:type="object">Fr3on\Healthz\Model\Check\DatabaseWriteCheck</item>
+                <item name="cache" xsi:type="object">Fr3on\Healthz\Model\Check\CacheCheck</item>
+                <item name="maintenance_mode" xsi:type="object">Fr3on\Healthz\Model\Check\MaintenanceModeCheck</item>
+                <item name="disk_space" xsi:type="object">Fr3on\Healthz\Model\Check\DiskSpaceCheck</item>
+                <item name="queue" xsi:type="object">Fr3on\Healthz\Model\Check\QueueCheck</item>
+                <item name="elasticsearch" xsi:type="object">Fr3on\Healthz\Model\Check\ElasticsearchCheck</item>
+                <item name="session" xsi:type="object">Fr3on\Healthz\Model\Check\SessionCheck</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!-- Configure Dedicated Logger -->
+    <type name="Fr3on\Healthz\Logger\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">healthz</argument>
+            <argument name="handlers" xsi:type="array">
+                <item name="system" xsi:type="object">Fr3on\Healthz\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!-- Inject custom logger into Controller -->
+    <type name="Fr3on\Healthz\Controller\Health\Ready">
+        <arguments>
+            <argument name="logger" xsi:type="object">Fr3on\Healthz\Logger\Logger</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\PageCache\Model\Config">
+        <plugin name="Fr3on_Healthz_PageCache"
+                type="Fr3on\Healthz\Plugin\PageCache\ExcludeHealthRoutesPlugin"/>
+    </type>
+</config>

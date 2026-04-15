@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <healthz>
+            <general>
+                <enabled>1</enabled>
+                <detail_token></detail_token>
+                <disk_threshold_gb>1</disk_threshold_gb>
+                <check_timeout_ms>3000</check_timeout_ms>
+            </general>
+        </healthz>
+    </default>
+</config>

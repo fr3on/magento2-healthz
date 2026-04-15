@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="fr3on" translate="label" sortOrder="100">
+            <label>Fr3on</label>
+        </tab>
+        <section id="healthz" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Healthz</label>
+            <tab>fr3on</tab>
+            <resource>Fr3on_Healthz::config</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Settings</label>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="detail_token" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Detail Token</label>
+                    <comment>A secret token required to access the /_health/detail endpoint via X-Health-Token header or token param.</comment>
+                </field>
+                <field id="disk_threshold_gb" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Disk Threshold (GB)</label>
+                    <comment>Free space threshold for var/ directory. Default is 1.0 GB.</comment>
+                </field>
+                <field id="check_timeout_ms" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Check Timeout (ms)</label>
+                    <comment>Maximum duration for an individual check. Default is 3000ms.</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

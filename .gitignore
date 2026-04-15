@@ -1,0 +1,9 @@
+/vendor/
+/composer.lock
+/auth.json
+.DS_Store
+/.idea
+/.vscode
+/var/
+/generated/
+/pub/static/

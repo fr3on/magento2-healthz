@@ -1,0 +1,21 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ['8.1', '8.2', '8.3']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: bcmath, gd, intl, pdo_mysql, soap, zip
+          coverage: none
+      - name: Configure Composer Auth
+        run: |
+          composer config --auth http-basic.repo.magento.com ${{ secrets.MAGENTO_USERNAME }} ${{ secrets.MAGENTO_PASSWORD }}
+      - run: composer install --prefer-dist
+      - run: vendor/bin/phpmd . github cleancode,codesize,controversial,design,naming,unusedcode --exclude vendor,Test
+      - run: vendor/bin/phpunit --testsuite unit
