@@ -13,6 +13,7 @@ class ExcludeHealthRoutesPlugin
     /**
      * Disable Full Page Cache for health check routes.
      *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      * @param Config $subject
      * @param bool $result
      * @return bool

@@ -9,7 +9,7 @@ trait TimeMeasurementTrait
      * @param int $startHrTime
      * @return int
      */
-    protected function ms(int $startHrTime): int
+    protected function getDurationMs(int $startHrTime): int
     {
         return (int)((hrtime(true) - $startHrTime) / 1_000_000);
     }

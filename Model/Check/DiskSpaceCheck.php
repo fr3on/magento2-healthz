@@ -22,18 +22,21 @@ class DiskSpaceCheck implements CheckInterface
         return false;
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.StaticAccess)
+     */
     public function run(): CheckResult
     {
         $start = hrtime(true);
         $path = BP . '/var';
         
         if (!is_dir($path)) {
-            return CheckResult::warn('disk_space check: var/ directory not found', $this->ms($start));
+            return CheckResult::warn('disk_space check: var/ directory not found', $this->getDurationMs($start));
         }
 
         $freeBytes = disk_free_space($path);
         if ($freeBytes === false) {
-            return CheckResult::warn('disk_free_space() returned false', $this->ms($start));
+            return CheckResult::warn('disk_free_space() returned false', $this->getDurationMs($start));
         }
 
         $thresholdGb = $this->config->getDiskThresholdGb();
@@ -49,11 +52,11 @@ class DiskSpaceCheck implements CheckInterface
         if ($freeBytes < $thresholdBytes) {
             return CheckResult::warn(
                 "disk space below threshold: {$freeGb}GB free",
-                $this->ms($start),
+                $this->getDurationMs($start),
                 $metadata
             );
         }
 
-        return CheckResult::ok($this->ms($start), $metadata);
+        return CheckResult::ok($this->getDurationMs($start), $metadata);
     }
 }

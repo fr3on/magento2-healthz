@@ -26,7 +26,7 @@ class CheckRegistry
      */
     public function getCritical(): array
     {
-        return array_filter($this->checks, fn($c) => $c->isCritical());
+        return array_filter($this->checks, fn($check) => $check->isCritical());
     }
 
     /**
@@ -42,6 +42,7 @@ class CheckRegistry
      * Run a set of checks and return results keyed by check name.
      * Never throws.
      *
+     * @SuppressWarnings(PHPMD.ErrorControlOperator)
      * @param CheckInterface[] $checks
      * @return array<string, CheckResult>
      */

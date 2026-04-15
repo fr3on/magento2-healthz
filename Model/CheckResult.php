@@ -1,6 +1,9 @@
 <?php
 namespace Fr3on\Healthz\Model;
 
+/**
+ * @SuppressWarnings(PHPMD.ShortMethodName)
+ */
 class CheckResult
 {
     public const STATUS_OK   = 'ok';
@@ -49,8 +52,12 @@ class CheckResult
     public function toArray(): array
     {
         $data = ['status' => $this->status, 'duration_ms' => $this->durationMs];
-        if ($this->error)    $data['error'] = $this->error;
-        foreach ($this->metadata as $k => $v) $data[$k] = $v;
+        if ($this->error) {
+            $data['error'] = $this->error;
+        }
+        foreach ($this->metadata as $key => $value) {
+            $data[$key] = $value;
+        }
         return $data;
     }
 }

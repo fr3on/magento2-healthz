@@ -22,12 +22,15 @@ class MaintenanceModeCheck implements CheckInterface
         return true;
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.StaticAccess)
+     */
     public function run(): CheckResult
     {
         $start = hrtime(true);
         if ($this->maintenanceMode->isOn()) {
-            return CheckResult::fail('maintenance mode is enabled', $this->ms($start));
+            return CheckResult::fail('maintenance mode is enabled', $this->getDurationMs($start));
         }
-        return CheckResult::ok($this->ms($start), ['enabled' => false]);
+        return CheckResult::ok($this->getDurationMs($start), ['enabled' => false]);
     }
 }

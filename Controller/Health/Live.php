@@ -1,14 +1,12 @@
 <?php
 namespace Fr3on\Healthz\Controller\Health;
 
+use DateTime;
 use Fr3on\Healthz\Model\Config;
-use Magento\Framework\App\Action\HttpGetActionInterface;
-use Magento\Framework\App\RequestInterface;
-use Magento\Framework\App\Request\InvalidRequestException;
-use Magento\Framework\App\CsrfAwareActionInterface;
-use Magento\Framework\Controller\Result\Json;
-use Magento\Framework\Controller\Result\JsonFactory;
 
+/**
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ */
 class Live implements HttpGetActionInterface, CsrfAwareActionInterface
 {
     public function __construct(
@@ -29,7 +27,7 @@ class Live implements HttpGetActionInterface, CsrfAwareActionInterface
 
         return $response->setData([
             'status'    => 'ok',
-            'timestamp' => (new \DateTime())->format('c'),
+            'timestamp' => (new DateTime())->format('c'),
         ]);
     }
 

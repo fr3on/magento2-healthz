@@ -24,6 +24,11 @@ class SessionCheck implements CheckInterface
         return false;
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.StaticAccess)
+     * @SuppressWarnings(PHPMD.ErrorControlOperator)
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     */
     public function run(): CheckResult
     {
         $start = hrtime(true);
@@ -33,9 +38,9 @@ class SessionCheck implements CheckInterface
             if ($saveMethod === 'files') {
                 $path = BP . '/var/session';
                 if (is_dir($path) && is_writable($path)) {
-                    return CheckResult::ok($this->ms($start), ['backend' => 'files']);
+                    return CheckResult::ok($this->getDurationMs($start), ['backend' => 'files']);
                 }
-                return CheckResult::fail('session directory not writable', $this->ms($start));
+                return CheckResult::fail('session directory not writable', $this->getDurationMs($start));
             }
 
             if ($saveMethod === 'redis') {
@@ -46,9 +51,9 @@ class SessionCheck implements CheckInterface
                     $connection = @fsockopen($host, $port, $errno, $errstr, 2.0);
                     if ($connection) {
                         fclose($connection);
-                        return CheckResult::ok($this->ms($start), ['backend' => 'redis', 'host' => $host]);
+                        return CheckResult::ok($this->getDurationMs($start), ['backend' => 'redis', 'host' => $host]);
                     }
-                    return CheckResult::fail("redis session connection failed: $errstr", $this->ms($start));
+                    return CheckResult::fail("redis session connection failed: $errstr", $this->getDurationMs($start));
                 }
             }
 
@@ -56,13 +61,13 @@ class SessionCheck implements CheckInterface
                 $connection = $this->resourceConnection->getConnection();
                 $tableName = $this->resourceConnection->getTableName('session');
                 if ($connection->isTableExists($tableName)) {
-                    return CheckResult::ok($this->ms($start), ['backend' => 'db']);
+                    return CheckResult::ok($this->getDurationMs($start), ['backend' => 'db']);
                 }
             }
 
-            return CheckResult::warn("unknown session save method: $saveMethod", $this->ms($start));
+            return CheckResult::warn("unknown session save method: $saveMethod", $this->getDurationMs($start));
         } catch (\Throwable $e) {
-            return CheckResult::fail('session: ' . $e->getMessage(), $this->ms($start));
+            return CheckResult::fail('session: ' . $e->getMessage(), $this->getDurationMs($start));
         }
     }
 }

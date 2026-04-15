@@ -22,6 +22,11 @@ class ElasticsearchCheck implements CheckInterface
         return false;
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.StaticAccess)
+     * @SuppressWarnings(PHPMD.ErrorControlOperator)
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     */
     public function run(): CheckResult
     {
         $start = hrtime(true);
@@ -35,18 +40,18 @@ class ElasticsearchCheck implements CheckInterface
                 $connection = @fsockopen($host, $port, $errno, $errstr, 2.0);
                 if ($connection) {
                     fclose($connection);
-                    return CheckResult::ok($this->ms($start), ['backend' => $engine, 'host' => $host]);
+                    return CheckResult::ok($this->getDurationMs($start), ['backend' => $engine, 'host' => $host]);
                 }
-                return CheckResult::fail("$engine connection failed: $errstr", $this->ms($start));
+                return CheckResult::fail("$engine connection failed: $errstr", $this->getDurationMs($start));
             }
 
             if ($engine === 'mysql' || !$engine) {
-                return CheckResult::ok($this->ms($start), ['backend' => 'mysql', 'note' => 'native mysql search']);
+                return CheckResult::ok($this->getDurationMs($start), ['backend' => 'mysql', 'note' => 'native mysql search']);
             }
 
-            return CheckResult::warn("unknown search engine: $engine", $this->ms($start));
+            return CheckResult::warn("unknown search engine: $engine", $this->getDurationMs($start));
         } catch (\Throwable $e) {
-            return CheckResult::fail('elasticsearch: ' . $e->getMessage(), $this->ms($start));
+            return CheckResult::fail('elasticsearch: ' . $e->getMessage(), $this->getDurationMs($start));
         }
     }
 }

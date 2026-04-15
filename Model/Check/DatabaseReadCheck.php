@@ -22,15 +22,18 @@ class DatabaseReadCheck implements CheckInterface
         return true;
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.StaticAccess)
+     */
     public function run(): CheckResult
     {
         $start = hrtime(true);
         try {
             $connection = $this->resourceConnection->getConnection();
             $connection->fetchOne('SELECT 1');
-            return CheckResult::ok($this->ms($start));
+            return CheckResult::ok($this->getDurationMs($start));
         } catch (\Throwable $e) {
-            return CheckResult::fail('database: ' . $e->getMessage(), $this->ms($start));
+            return CheckResult::fail('database: ' . $e->getMessage(), $this->getDurationMs($start));
         }
     }
 }

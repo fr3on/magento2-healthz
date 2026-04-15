@@ -1,17 +1,12 @@
 <?php
 namespace Fr3on\Healthz\Controller\Health;
 
+use DateTime;
 use Fr3on\Healthz\Model\CheckRegistry;
-use Fr3on\Healthz\Model\Config;
-use Magento\Framework\App\Action\HttpGetActionInterface;
-use Magento\Framework\App\RequestInterface;
-use Magento\Framework\App\Request\InvalidRequestException;
-use Magento\Framework\App\CsrfAwareActionInterface;
-use Magento\Framework\App\ProductMetadataInterface;
-use Magento\Framework\App\State;
-use Magento\Framework\Controller\Result\Json;
-use Magento\Framework\Controller\Result\JsonFactory;
 
+/**
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ */
 class Detail implements HttpGetActionInterface, CsrfAwareActionInterface
 {
     public function __construct(
@@ -58,7 +53,7 @@ class Detail implements HttpGetActionInterface, CsrfAwareActionInterface
 
         return $response->setData([
             'status'    => $allOk ? 'ok' : 'fail',
-            'timestamp' => (new \DateTime())->format('c'),
+            'timestamp' => (new DateTime())->format('c'),
             'magento'   => [
                 'version' => $this->productMetadata->getVersion(),
                 'edition' => $this->productMetadata->getEdition(),

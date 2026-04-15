@@ -22,6 +22,9 @@ class DatabaseWriteCheck implements CheckInterface
         return false;
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.StaticAccess)
+     */
     public function run(): CheckResult
     {
         $start = hrtime(true);
@@ -29,9 +32,9 @@ class DatabaseWriteCheck implements CheckInterface
             $connection = $this->resourceConnection->getConnection();
             $connection->query('CREATE TEMPORARY TABLE healthz_write_check (id INT)');
             $connection->query('DROP TEMPORARY TABLE healthz_write_check');
-            return CheckResult::ok($this->ms($start));
+            return CheckResult::ok($this->getDurationMs($start));
         } catch (\Throwable $e) {
-            return CheckResult::fail('database write: ' . $e->getMessage(), $this->ms($start));
+            return CheckResult::fail('database write: ' . $e->getMessage(), $this->getDurationMs($start));
         }
     }
 }

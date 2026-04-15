@@ -22,6 +22,9 @@ class CacheCheck implements CheckInterface
         return true;
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.StaticAccess)
+     */
     public function run(): CheckResult
     {
         $start = hrtime(true);
@@ -32,13 +35,13 @@ class CacheCheck implements CheckInterface
             $this->cache->remove($testKey);
 
             if ($result !== '1') {
-                return CheckResult::fail('cache read/write roundtrip failed', $this->ms($start));
+                return CheckResult::fail('cache read/write roundtrip failed', $this->getDurationMs($start));
             }
 
             $metadata = ['backend' => get_class($this->cache)];
-            return CheckResult::ok($this->ms($start), $metadata);
+            return CheckResult::ok($this->getDurationMs($start), $metadata);
         } catch (\Throwable $e) {
-            return CheckResult::fail('cache: ' . $e->getMessage(), $this->ms($start));
+            return CheckResult::fail('cache: ' . $e->getMessage(), $this->getDurationMs($start));
         }
     }
 }
